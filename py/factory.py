@@ -14,7 +14,20 @@ class Factory(WebSocketServerFactory):
         self.clients = []
 
         self.db = Database()
-    
+
+    def register(self, client):
+        if client not in self.clients:
+            print("registered client {}".format(client.peer))
+
+            self.clients.append(client)
+
+    def unregister(self, client):
+        if client in self.clients:
+            print("unregistered client {}".format(client.peer))
+
+            self.clients.remove(client)
+
+
     def todas_vagas(self,client):
 
         d = self.db.todas_vagas()
@@ -23,8 +36,10 @@ class Factory(WebSocketServerFactory):
             lista = []
 
             for value in args:
-                print(value)
-                lista.append(value)
+                lista.append(str(value[1]))
+                lista.append(str(value[2]))
+                lista.append(str(value[3]))
+                lista.append(str(value[4]))
             
             msg = "todas_vagas<&>" + ';'.join(lista)
 
@@ -34,7 +49,7 @@ class Factory(WebSocketServerFactory):
 
     def add_vaga(self,client, lat, lon):
 
-        d = self.db.add_vaga()
+        d = self.db.add_vaga(lat,lon)
 
         def callback(args):
 
@@ -44,11 +59,17 @@ class Factory(WebSocketServerFactory):
         
         d.addCallback(callback)
 
-    def vaga_positiva(self,client, lat, lon):
+    def positivar_vaga(self,client, lat, lon):
 
-        d = self.db.vaga_positiva()
+        d = self.db.consulta_positiva(lat,lon)
 
         def callback(args):
+            
+            positivo_atual = int(args[0][0])
+            positivo_atual += 1
+            print("positivo atualizado", positivo_atual)
+
+            self.db.update_positivo(lat, lon, positivo_atual)
 
             msg = "feedback<&>" + 'Vaga joinha'
 
@@ -56,13 +77,19 @@ class Factory(WebSocketServerFactory):
         
         d.addCallback(callback)
 
-    def vaga_negativa(self,client, lat, lon):
+    def negativar_vaga(self,client, lat, lon):
 
-        d = self.db.vaga_negativa()
+        d = self.db.consulta_negativa(lat,lon)
 
         def callback(args):
+            
+            negativo_atual = int(args[0][0])
+            negativo_atual += 1
+            print("negativo atualizado", negativo_atual)
 
-            msg = "feedback<&>" + 'Vaga NÃO joinha'
+            self.db.update_negativo(lat, lon, negativo_atual)
+
+            msg = "feedback<&>" + 'Vaga joinha'
 
             client.sendMessage(msg.encode(encoding='utf_8'))
         

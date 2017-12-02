@@ -35,16 +35,19 @@ class Protocol(WebSocketServerProtocol):
 
             if msg == 'todas_vagas':
                 self.factory.todas_vagas(self)
-                
+
             elif '<&>' in msg:
                 code, client_msg = msg.split('<&>')
 
                 if code == 'add_vaga':
+                    lat,lon = client_msg.split(';')
                     self.factory.add_vaga(self,lat,lon)
                 
-                elif code == 'vaga_positiva':
-                    self.factory.vaga_positiva(self,lat,lon)
+                elif code == 'positivar_vaga':
+                    lat,lon = client_msg.split(';')
+                    self.factory.positivar_vaga(self,lat,lon)
 
-                elif code == 'vaga_negativa':
-                    self.factory.vaga_negativa(self,lat,lon)
+                elif code == 'negativar_vaga':
+                    lat,lon = client_msg.split(';')
+                    self.factory.negativar_vaga(self,lat,lon)
                     

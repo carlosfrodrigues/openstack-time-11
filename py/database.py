@@ -12,58 +12,79 @@ class Database(object):
         self.dbpool = adbapi.ConnectionPool(
             "sqlite3", "../vagas.sqlite3", check_same_thread=False,
             timeout=60)
-
+        
+        self.create_table()
+        
     def close(self):
         self.dbpool.close()
 
     def create_table(self):
-        query_str = "create table if not exists vagas "
-        query_str += "(id integer AUTOINCREMENT primary key, latitude real, longitude real, "
-        query_str += "positive integer, negative integer "
-        query_str += "unique(latitude,longitude,positive, negative));"
+        query_str = "CREATE TABLE IF NOT EXISTS vagas \
+                    (id INTEGER PRIMARY KEY, \
+                    latitude real, \
+                    longitude real, \
+                    positive INTEGER, \
+                    negative INTEGER, \
+                    unique(latitude, longitude));"
 
         return self.dbpool.runQuery(query_str)
+        
 
 
     def add_vaga(self, lat, lon):
 
         param = (lat,lon)
-        query_str = "insert or ignore into vagas values (null,?,?,null,null)"
+        query_str = "insert or ignore into vagas values (null,?,?,0,0)"
 
-        return self.twisted_dbpool.runQuery(query_str,param)
-
-
-    def vaga_positiva(self,lat,lon):
-
-        param = (lat,lon)
-        #param = (lat,lon,)
-        query_str = "select distinct positivo from vagas where "
-        query_str += "latitude = ? and longitude = ?"
-        
-        positivo_atual = self.twisted_dbpool.runQuery(query_str,param)
-
-        param = (lat,lon,positivo_atual+1)
-        query_str = "insert or ignore into vagas values (null,?,?,?,null)"
-
-        return self.twisted_dbpool.runQuery(query_str,param)
+        return self.dbpool.runQuery(query_str,param)
 
 
-    def vaga_negativa(self,lat,lon):
+    def consulta_positiva(self,lat,lon):
 
         param = (lat,lon)
-        #param = (lat,lon,)
-        query_str = "select distinct negativo from vagas where "
+
+        query_str = "select distinct positive from vagas where "
+        query_str += "latitude = ? and longitude = ? limit 1"
+
+        return self.dbpool.runQuery(query_str,param)
+
+    def update_positivo(self,lat,lon,pos):
+
+        param = (pos,lat,lon)
+        print(pos)
+
+        query_str = "update vagas set positive = ? where "
         query_str += "latitude = ? and longitude = ?"
+
+        return self.dbpool.runQuery(query_str,param)
+
+
+
+
+    def consulta_negativa(self,lat,lon):
+
+        param = (lat,lon)
+
+        query_str = "select distinct negative from vagas where "
+        query_str += "latitude = ? and longitude = ? limit 1"
+
+        return self.dbpool.runQuery(query_str,param)
+
+    def update_negativo(self,lat,lon,neg):
+
+        param = (neg,lat,lon)
         
-        negativo_atual = self.twisted_dbpool.runQuery(query_str,param)
 
-        param = (lat,lon,negativo_atual+1)
-        query_str = "insert or ignore into vagas values (null,?,?,null,?)"
+        query_str = "update vagas set negative = ? where "
+        query_str += "latitude = ? and longitude = ?"
 
-        return self.twisted_dbpool.runQuery(query_str,param)
+        return self.dbpool.runQuery(query_str,param)
+
+
+
 
     def todas_vagas(self):
 
         query_str = "select * from vagas"
 
-        return self.twisted_dbpool.runQuery(query_str)
+        return self.dbpool.runQuery(query_str)

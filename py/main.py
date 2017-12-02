@@ -19,17 +19,10 @@ if __name__ == "__main__":
 
     server_address = "ws://127.0.0.1:" + str(port)
 
-    root = File("../")
-
     factory = Factory(server_address)
     factory.protocol = Protocol
     resource = WebSocketResource(factory)
 
-    # websockets resource on "/ws" path
-    root.putChild('ws'.encode("ascii"), resource)
-
-    site = Site(root)
-
-    reactor.listenTCP(port, site)
+    reactor.listenTCP(port, factory)
 
     reactor.run()
