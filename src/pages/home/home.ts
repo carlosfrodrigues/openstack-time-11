@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {Geolocation } from '@ionic-native/geolocation';
 
-
 declare var google: any;
 
 @Component({
@@ -25,7 +24,7 @@ map:any;
   
   ionViewDidLoad() { 
     this.geolocation.getCurrentPosition().then((resp) => {
-      console.log("1")
+      
       let location_2 = new google.maps.LatLng(resp.coords.latitude,resp.coords.longitude)
       
       const options = {
@@ -34,12 +33,12 @@ map:any;
         streetViewControl: false,
         fullscreenControl: false
       }
-      console.log("3")
+      
       this.showMap(options);
       this.usuario = this.markerPosition(location_2, this.map);
       this.usuario.title  = "teste"
       console.log(this.usuario)
-      console.log("2")
+      
       this.longitude = resp.coords.longitude;
 
      }).catch((error) => {
@@ -52,7 +51,7 @@ map:any;
         streetViewControl: false,
         fullscreenControl: false
       }
-      console.log("2")
+      
        this.showMap(options);
        this.addMarker(location_cristo, this.map, false)
      });
@@ -61,19 +60,28 @@ map:any;
         this.usuario.setMap(null);
 
         var location_2 = new google.maps.LatLng(resp.coords.latitude,resp.coords.longitude);
-
-        console.log(resp.coords.latitude,resp.coords.longitude);
         
         this.usuario = this.markerPosition(location_2, this.map);
 
         google.maps.event.addListener(this.usuario, 'click', function () {
+          var Infowindow = new google.maps.InfoWindow();
+
+          var button = '<button id="add_button">Vaga</button>';
           
-          Infowindow.setContent(place.name);
-          Infowindow.open(Map, this);  
+          Infowindow.setContent(button);
+
+          google.maps.event.addListenerOnce(Infowindow, 'domready',() => {
+            document.getElementById("add_button").addEventListener('click', () =>{
+              console.log(resp.coords.latitude,resp.coords.longitude);
+            })
+          });
+          
+          Infowindow.open(Map, this);         
         });
        });    
   }
 
+  
   showMap(options:any) {
     console.log("1")
     //const location = new google.maps.LatLng(-21.92011,-43.256247)  

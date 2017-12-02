@@ -1,6 +1,6 @@
 {
   "name": "aplicativo",
-  "app_id": "46d72d82",
+  "app_id": "ce643c49",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
