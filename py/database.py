@@ -21,8 +21,8 @@ class Database(object):
     def create_table(self):
         query_str = "CREATE TABLE IF NOT EXISTS vagas \
                     (id INTEGER PRIMARY KEY, \
-                    latitude real, \
-                    longitude real, \
+                    latitude REAL, \
+                    longitude REAL, \
                     positive INTEGER, \
                     negative INTEGER, \
                     unique(latitude, longitude));"

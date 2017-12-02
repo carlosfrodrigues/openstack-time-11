@@ -65,5 +65,3 @@ if __name__ == "__main__":
     print("Received '%s'" % result)
     #ws.close()
 
-
-
