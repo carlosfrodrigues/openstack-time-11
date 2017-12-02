@@ -17,6 +17,7 @@ if __name__ == "__main__":
 
     port = 40000
 
+    #server_address = "ws://127.0.0.1:" + str(port)
     server_address = "ws://127.0.0.1:" + str(port)
 
     factory = Factory(server_address)

@@ -50,4 +50,7 @@ class Protocol(WebSocketServerProtocol):
                 elif code == 'negativar_vaga':
                     lat,lon = client_msg.split(';')
                     self.factory.negativar_vaga(self,lat,lon)
-                    
+
+                # elif code == 'ocupar_vaga':
+                #     lat,lon = client_msg.split(';')
+                #     self.factory.ocupar_vaga(self,lat,lon)

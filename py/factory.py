@@ -84,8 +84,26 @@ class Factory(WebSocketServerFactory):
 
             self.db.update_negativo(lat, lon, negativo_atual)
 
-            msg = "feedback<&>" + 'Vaga joinha'
+            msg = "feedback<&>" + 'Vaga NAO joinha'
 
             client.sendMessage(msg.encode(encoding='utf_8'))
         
         d.addCallback(callback)
+
+    # def ocupar_vaga(self,client, lat, lon):
+
+    #     d = self.db.consulta_ocupacao(lat,lon)
+
+    #     def callback(args):
+            
+    #         ocupacao = int(args[0][0])
+    #         ocupacao += 1
+    #         print("ocupacao atualizado", ocupacao)
+
+    #         self.db.update_ocupacao(lat, lon, ocupacao)
+
+    #         msg = "feedback<&>" + 'Vaga joinha'
+
+    #         client.sendMessage(msg.encode(encoding='utf_8'))
+        
+    #     d.addCallback(callback)
