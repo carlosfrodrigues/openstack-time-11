@@ -25,6 +25,7 @@ class Database(object):
                     longitude REAL, \
                     positive INTEGER, \
                     negative INTEGER, \
+                    ocupada INTEGER, \
                     unique(latitude, longitude));"
 
         return self.dbpool.runQuery(query_str)
@@ -34,7 +35,7 @@ class Database(object):
     def add_vaga(self, lat, lon):
 
         param = (lat,lon)
-        query_str = "insert or ignore into vagas values (null,?,?,0,0)"
+        query_str = "insert or ignore into vagas values (null,?,?,0,0,0)"
 
         return self.dbpool.runQuery(query_str,param)
 

@@ -33,14 +33,8 @@ class Factory(WebSocketServerFactory):
         d = self.db.todas_vagas()
 
         def callback(args):
-            #lista = []
 
-            # for value in args:
-            #     lista.append(str(value[1]))
-            #     lista.append(str(value[2]))
-            #     lista.append(str(value[3]))
-            #     lista.append(str(value[4]))
-            lista = [x for arg in args for x in arg]
+            lista = [str(x) for arg in args for x in arg]
             
             msg = "todas_vagas<&>" + ';'.join(lista)
 
