@@ -25,13 +25,9 @@ class Ponto(object):
 
 if __name__ == "__main__":
 
-<<<<<<< HEAD
-    ws = websocket.create_connection("ws://192.168.0.149:40000")
-=======
     ip = 'localhost'
     ip = '10.20.3.197'
     ws = websocket.create_connection("ws://10.20.3.197:40000")
->>>>>>> 93cc02b90470db87d02b7972b425d5459a2e6191
 
     ppV1 = Ponto(-22.893999, -43.295744)
     ppV2 = Ponto(-22.893706, -43.296856)
