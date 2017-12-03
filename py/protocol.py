@@ -38,8 +38,7 @@ class Protocol(WebSocketServerProtocol):
 
             elif '<&>' in msg:
                 code, client_msg = msg.split('<&>')
-
-                if code == 'add_vaga':
+                if code == 'add_vagas':
                     lat,lon = client_msg.split(';')
                     self.factory.add_vaga(self,lat,lon)
                 
