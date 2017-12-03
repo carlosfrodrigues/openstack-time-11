@@ -43,12 +43,11 @@ class Factory(WebSocketServerFactory):
         d.addCallback(callback)
 
     def add_vaga(self,client, lat, lon):
-
         d = self.db.add_vaga(lat,lon)
 
         def callback(args):
-
             msg = "feedback<&>" + 'Vaga adicionada'
+            print(lat, lon)
 
             client.sendMessage(msg.encode(encoding='utf_8'))
         
