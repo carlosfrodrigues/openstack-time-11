@@ -1,2 +1,2 @@
 # openstack-time-11
-Todo Código feito durante a Hackathon 2017 da Openstack.
+All code we made at the Openstack Hackathon 2017 Rio de Janeiro
